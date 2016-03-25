@@ -1,0 +1,119 @@
+sitemap mojaoffice label="MojaOffice"{
+
+	Frame label="Datum" {
+		Text 			item=Date 		label="Zeit"
+//		Switch         	item=Toggle_1	label="An/Aus"
+//		Slider 			item=Volume
+
+	}
+		
+	Frame label="Licht" {
+		Switch item=Lights label="Beleuchtung" mappings=[OFF="Alle aus", ON="Alle an"]
+		/* Switch item=Lights mappings=[ON="Alle an"] */
+
+		Text label="Schlafzimmer" icon="bedroom" {
+			Switch         item=Toggle_1   	                             							label="An/Aus"
+			Colorpicker    item=Color_1   	icon="colorwheel"			visibility=[Toggle_1==ON] 	label="Farbe"
+			Slider         item=Dimm_1     								visibility=[Toggle_1==ON] 	label="Helligkeit" 
+			Slider         item=CT_Dimm_1  								visibility=[Toggle_1==ON]	label="Farb Temperatur"  
+		}
+		Text label="Wohnzimmer" icon="sofa" {
+			Switch         item=Toggle_2   	                             								label="An/Aus"
+			Colorpicker    item=Color_2    	icon="colorwheel"				visibility=[Toggle_2==ON]    label="Farbe"
+			Slider         item=Dimm_2     									visibility=[Toggle_2==ON]    label="Helligkeit" 
+			Slider         item=CT_Dimm_2  									visibility=[Toggle_2==ON]    label="Farb Temperatur"  
+		}
+		Text label="Küche" icon="kitchen" {
+			Switch         item=Toggle_3  								label="An/Aus"
+			Colorpicker    item=Color_3		icon="colorwheel" 			label="Farbe"
+			Slider         item=Dimm_3     								label="Helligkeit" 
+			Slider         item=CT_Dimm_3  								label="Farb Temperatur"  
+		}
+		Text label="Terrasse" icon="terrace" {
+			Switch         item=Toggle_DECT1 icon="switch"  label="An/Aus"
+			Text 		   item=Temp_DECT1   icon="temperature" valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"] label="Temperatur"
+		}
+	}
+	/*
+	Frame label="Wetter" {
+		Text item=Weather_Temperature label="Aussentemperatur" valuecolor=[Weather_LastUpdate=="Uninitialized"="lightgray",Weather_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"] {
+			Frame {
+				Text item=Weather_Temp_Max valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+				Text item=Weather_Temp_Min valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+				Text item=Weather_Humidity icon="climate"
+				Text item=Weather_Pressure icon="barometer"
+				Text item=Weather_Humidex icon="climate-on" 
+				Text item=Weather_LastUpdate visibility=[Weather_LastUpdate>30] valuecolor=[Weather_LastUpdate>120="orange", Weather_LastUpdate>300="red"]
+			}
+			Frame {
+				Switch item=Weather_Chart_Period icon="temperature" label="Chart Period" mappings=[0="Hour", 1="Day", 2="Week"] 
+					Chart item=Weather_Chart period=h refresh=6000 visibility=[Weather_Chart_Period==0, Weather_Chart_Period=="NULL"]
+					Chart item=Weather_Chart period=D refresh=30000 visibility=[Weather_Chart_Period==1]
+					Chart item=Weather_Chart period=W refresh=30000 visibility=[Weather_Chart_Period==2]
+				
+			}
+		}
+	}
+
+
+	Frame label="Tech News" {
+		Text label="Heise Online" icon="video" {
+			Frame label="Heise Online" {
+				Webview url="http://heise-online.mobi/" height=16
+			}
+		}
+	}
+*/
+	Frame label="Demo" {
+		Text label="Gruppen" icon="firstfloor" {
+			Switch item=Lights mappings=[OFF="Alle aus"]
+			Switch item=Lights mappings=[ON="Alle an"]
+			Group item=Heating
+			Group item=Windows
+			Text item=Temperature
+		}
+		Text label="Radio" icon="video" {
+			Frame label="Radio Control" {
+				Selection item=Radio_Station mappings=[0=off, 1=HR3, 2=SWR3, 3=FFH]
+				Slider item=Volume
+			}
+		}
+		Text label="Multimedia" icon="video" {
+			Frame label="Multimedia Widgets" {
+				Video icon="video" url="https://www.youtube.com/watch?v=zEspMCncg90"
+			}
+		}
+		Text label="Website" icon="video" {
+			Frame label="Heise Online" {
+				Webview url="http://heise-online.mobi/" height=16
+			}
+		}
+		Text label="Widget Sammlung" icon="chart" {
+			Frame label="Binäre Widgets" {
+				Switch item=DemoSwitch label="Toggle Switch"
+				Switch item=DemoSwitch label="Button Switch" mappings=[ON="On"]
+			}
+			Frame label="Präzise Widgets" {
+				Selection item=Scene_General label="Scene Selection" mappings=[0=off, 1=TV, 2=Dinner, 3=Reading]
+				Switch item=Scene_General label="Scene" mappings=[1=TV, 2=Dinner, 3=Reading]
+				Setpoint item=Temperature_Setpoint minValue=16 maxValue=28 step=0.5
+			}
+			Frame label="Prozent Widgets" {
+				Slider item=DimmedLight switchSupport
+				Colorpicker item=RGBLight icon="slider"
+				Switch item=DemoShutter
+				Slider item=DemoBlinds
+			}
+			Frame label="Karte und Ort" {
+				Mapview item=DemoLocation height=10
+			}
+			
+		}
+
+		Group item=gFF label="Erster Stock" icon="firstfloor"
+		Group item=gGF label="Erdgeschoss" icon="groundfloor"
+		Group item=gC label="Keller" icon="cellar"	
+		Group item=Garden label="Garten" icon="garden" 
+	}
+
+}

@@ -1,0 +1,6 @@
+sitemap weather label="weather"
+{
+	Frame label="Weather" {
+		Webview url="/weather?locationId=home&layout=example&iconset=colorful" height=7
+	}
+}

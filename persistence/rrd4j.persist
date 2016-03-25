@@ -1,0 +1,31 @@
+// Persistence strategies have a name and a definition and are referred to in the "Items" section
+Strategies {
+	everyMinute	: "0 * * * * ?"
+
+	// If no strategy is specified for an item entry below, the default list will be used.
+	default = 
+}
+
+/*
+ * Each line in this section defines for which item(s) which strategy(ies) should be applied.
+ * You can list single items, use "*" for all items or "groupitem*" for all members of a group
+ * item (excl. the group item itself).
+ */
+Items {
+	* : strategy = everyChange, everyMinute, restoreOnStartup
+
+	NoOfLights : strategy = everyChange, everyMinute, restoreOnStartup
+	Window_GF_Toilet : strategy = everyChange, everyMinute, restoreOnStartup
+	Heating* : strategy = everyChange, everyMinute, restoreOnStartup
+	Temperature* : strategy = everyMinute, restoreOnStartup
+	Weather_Chart* : strategy = everyMinute, restoreOnStartup
+	Power* : strategy = everyMinute, restoreOnStartup
+	Power_Chart* : strategy = everyMinute, restoreOnStartup
+	PV_Chart* : strategy = everyMinute, restoreOnStartup
+	Weather_Temp_Min : strategy = everyMinute, restoreOnStartup
+	Weather_Temp_Max : strategy = everyMinute, restoreOnStartup
+	Weather_Temperature : strategy = everyMinute, restoreOnStartup
+	Angle_PV : strategy = everyMinute, restoreOnStartup
+	Sunrise_Time : strategy = everyMinute
+	
+}

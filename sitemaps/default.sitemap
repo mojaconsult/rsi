@@ -1,0 +1,94 @@
+
+sitemap default label="default"
+{
+	Frame label="General" {
+		Switch item=Lights 				label="All lights" mappings=[OFF="All Off", ON="All On"]
+		Switch item=Heating_Setpoints 	label="All thermostats" mappings=[4="4°C", 20="20°C"]
+
+		Setpoint item=Heating_Setpoints  minValue=4 maxValue=30 step=1
+
+		Text 			item=Date		icon="calendar"	label="Today [%1$tA, %1$td.%1$tm.%1$tY]"
+		Text 			item=Date		icon="clock"	label="Now [%1$tH:%1$tM]"
+/*
+		Text 			item=Sun_Rise 	icon="sunrise" 	label="Sunrise [%1$tA, %1$td.%1$tm.%1$tY]" 
+		Text			item=Sun_Set 	icon="sunset"	label="Sunset [%1$tA, %1$td.%1$tm.%1$tY]" 
+*/
+	}
+	Frame label="Lights" {
+		Switch         item=Light_GF_Fireside_Ceiling   	        icon="switch"                   label="Sphere Light On/Off"
+		Switch         item=Light_GF_Dining_Ceiling   	            icon="switch"                  	label="Standard Light On/Off"
+		Switch         item=Light_GF_Conservatory_Ceiling 			icon="switch" 					label="Cable Light On/Off"
+		Switch			item=Zw_Cordswitch  						icon="switch" 					label="Swiid Cord Lamp On/Off"
+/* Doesn t work */
+/*
+		Text label="Sphere" icon="fire" {
+			Switch         item=Light_GF_Fireside_Ceiling   	    icon="switch"       label="On/Off"
+			Colorpicker    item=Light_GF_Fireside_Ceiling_Color   	icon="colorwheel"			visibility=[Light_GF_Fireside_Ceiling==ON] 	label="Color"
+			Slider         item=Light_GF_Fireside_Ceiling_Dimm     								visibility=[Light_GF_Fireside_Ceiling==ON] 	label="Brightness" 
+			Slider         item=Light_GF_Fireside_Ceiling_CT_Dimm  								visibility=[Light_GF_Fireside_Ceiling==ON]	label="Color Temp."  
+		}
+*/
+	}
+	
+	Frame label="Sensors" {
+		Text item=Zw_PST02_Temp 		icon="temperature"
+		Text item=Zw_PST02_Motion 	
+		Text item=Zw_PST02_Door			icon="frontdoor"
+		Text item=Zw_PST02_Lux
+		Text item=Zw_PST02_Battery 
+	}
+
+	Frame label="Heating" {
+		Setpoint 	item=Zw_Danfoss_Set_5 minValue=4 maxValue=30 step=0.5
+		Setpoint 	item=Zw_Danfoss_Set_6 minValue=4 maxValue=30 step=0.5
+		Setpoint 	item=Zw_Danfoss_Set_7 minValue=4 maxValue=30 step=0.5
+	}
+		
+	Frame label="Weather" {
+		Webview url="/weather?locationId=home&layout=example&iconset=colorful" height=7
+	}
+
+		
+	Frame label="Radio" {
+ 		Text label="Stream" icon="network" {
+				Selection item=Radio_Station label="Radio Stations" icon="network" mappings=[0=off, 1=HR3, 2=SWR3, 3=FFH]
+				Slider item=Volume
+		}
+	}
+	Frame label="Sun" {
+ 		Text label="Zodiac" icon="sun" {	
+			Text 	item=Sunrise_Time
+			Text	item=Sunset_Time
+			Text	item=Azimuth
+			Text	item=Elevation
+		}
+ 	}
+
+	Frame label="Weather" {
+		Text item=Weather_Temperature icon="climate" label="Outside" valuecolor=[Weather_LastUpdate=="Uninitialized"="lightgray",Weather_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"] {
+			Frame {
+				Text item=Weather_Temp_Max valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+				Text item=Weather_Temp_Min valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+				Text item=Weather_Humidity icon="climate" label="Humidity"
+				Text item=Weather_Pressure icon="barometer" label="Pressure"
+				Text item=Weather_Humidex icon="climate-on" label="Humidity Index"
+				Text item=Weather_LastUpdate visibility=[Weather_LastUpdate>30] valuecolor=[Weather_LastUpdate>120="orange", Weather_LastUpdate>300="red"]
+			}
+			Frame {
+				Switch item=Weather_Chart_Period icon="temperature" label="Chart Period" mappings=[0="Hour", 1="Day", 2="Week"] 
+					Chart item=Weather_Chart period=h refresh=6000 visibility=[Weather_Chart_Period==0, Weather_Chart_Period=="NULL"]
+					Chart item=Weather_Chart period=D refresh=30000 visibility=[Weather_Chart_Period==1]
+					Chart item=Weather_Chart period=W refresh=30000 visibility=[Weather_Chart_Period==2]
+				
+			}
+		}
+	}
+	Frame label="General Information" {
+		Text label="Map" icon="chart" {
+			Frame label="MojaOffice Location" {
+				Mapview item=MojaLocation height=20
+			}
+		}
+	}
+	
+}

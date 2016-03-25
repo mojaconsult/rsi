@@ -1,0 +1,17 @@
+/* Lights */
+Switch Toggle_1   "left bulb"   (Switching, Lights) {hue="1"}
+Switch Toggle_2   "center bulb" (Switching, Lights) {hue="2"}
+Switch Toggle_3   "right bulb"  (Switching, Lights) {hue="3"}
+
+Color Color_1     "left bulb"   (Colorize)  {hue="1"}
+Color Color_2     "center bulb" (Colorize)  {hue="2"}
+Color Color_3     "right bulb"  (Colorize)  {hue="3"}
+
+Dimmer Dimm_1     "left bulb"   (WhiteDimmer)   {hue="1;brightness;30"}
+Dimmer Dimm_2     "center bulb" (WhiteDimmer)   {hue="2;brightness;30"}
+Dimmer Dimm_3     "right bulb"  (WhiteDimmer)   {hue="3;brightness;30"}
+
+Dimmer CT_Dimm_1  "left bulb"   (CTDimmer)  {hue="1;colorTemperature;30"}
+Dimmer CT_Dimm_2  "center bulb" (CTDimmer)  {hue="2;colorTemperature;30"}
+Dimmer CT_Dimm_3  "right bulb"  (CTDimmer)  {hue="3;colorTemperature;30"}
+

@@ -1,0 +1,33 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+import java.util.Date
+
+
+
+rule "-- Kitchen On on Motion --"
+	when 
+		Item Zw_PST02_Motion changed from CLOSED to OPEN or
+		Item Zw_PST02_Motion received command OPEN 
+	then
+		If (Zw_PST02_Lux < 20) {
+			sendCommand(Toggle_1, ON)
+		}
+		logInfo("-- Kitchen On-Motion --", "Motion Sensor is: " + Zw_PST02_Motion.state)
+		logInfo("-- Kitchen On-Motion --", "Kitchen Light is: " + Toggle_2.state)
+
+end
+
+/*
+ 
+rule "-- Kitchen OFF on Motion --"
+	when 
+		Item Zw_PST02_Door changed from CLOSED to OPEN or
+		Item Zw_PST02_Door received command OPEN 
+		
+	then
+		sendCommand(Toggle_1, OFF)
+		logInfo("-- Kitchen Off-Contact --", "Motion Sensor is: " + Zw_PST02_Motion.state)
+		logInfo("-- Kitchen Off-Contact --", "Kitchen Light is: " + Toggle_2.state)
+end
+*/

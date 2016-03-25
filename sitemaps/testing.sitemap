@@ -1,0 +1,78 @@
+
+sitemap testing label="testing"
+{
+
+	Frame label="Testing Overview" {
+		Group item=Enocean 		label="Enocean Items" 	icon="cellar"	
+		Group item=Zwave 		label="Zwave Items" 	icon="cellar"	
+		Group item=gZwaveStats 	label="Zwave Stats" 	icon="cellar"	
+
+		Text label="Conditions" icon="sun" {
+			Text			item=Condition_ID
+			Text			item=Condition_ID1
+			Text			item=Condition_ID2
+			Text			item=CommonId
+			Text			item=CommonId1
+			Text			item=CommonId2
+		}
+    }
+
+
+	Frame label="Testing RSI Floors" {
+		Group item=gBM label="Basement" icon="cellar"	
+		Group item=gGF label="Ground Floor" icon="groundfloor"
+		Group item=gFF label="First Floor" icon="firstfloor"
+		Group item=gSF label="Second Floor" icon="attic"
+		Group item=Outdoor icon="garden" 
+
+    }
+
+	Frame label="Testing RSI Lights" {
+		Text label="Fireside Lounge" icon="fire" {
+			Switch         item=Light_GF_Fireside_Ceiling   	                             							label="On/Off"
+			Colorpicker    item=Light_GF_Fireside_Ceiling_Color   	icon="colorwheel"			visibility=[Light_GF_Fireside_Ceiling==ON] 	label="Color"
+			Slider         item=Light_GF_Fireside_Ceiling_Dimm     								visibility=[Light_GF_Fireside_Ceiling==ON] 	label="Brightness" 
+			Slider         item=Light_GF_Fireside_Ceiling_CT_Dimm  								visibility=[Light_GF_Fireside_Ceiling==ON]	label="Color Temp."  
+		}
+		Text label="Dining Room" icon="sofa" {
+			Switch         item=Light_GF_Dining_Ceiling   	                             								label="On/Off"
+			Colorpicker    item=Light_GF_Dining_Ceiling_Color    	icon="colorwheel"				visibility=[Light_GF_Dining_Ceiling==ON]    label="Color"
+			Slider         item=Light_GF_Dining_Ceiling_Dimm     									visibility=[Light_GF_Dining_Ceiling==ON]    label="Brightness" 
+			Slider         item=Light_GF_Dining_Ceiling_CT_Dimm  									visibility=[Light_GF_Dining_Ceiling==ON]    label="Color Temp."  
+		}
+		Text label="Conservatory" icon="corridor" {
+			Switch         item=Light_GF_Conservatory_Ceiling 								label="On/Off"
+			Colorpicker    item=Light_GF_Conservatory_Ceiling_Color		icon="colorwheel" 	visibility=[Light_GF_Conservatory_Ceiling==ON]		label="Color"
+			Slider         item=Light_GF_Conservatory_Ceiling_Dimm     						visibility=[Light_GF_Conservatory_Ceiling==ON]		label="Brightness" 
+			Slider         item=Light_GF_Conservatory_Ceiling_CT_Dimm  						visibility=[Light_GF_Conservatory_Ceiling==ON]		label="Color Temp."  
+		}
+		Switch		item=Zw_Cordswitch
+	}	
+	Frame label="Testing RSI Energy" {
+		Group item=BM_Infrastructure label="Infrastructure" icon="cellar"
+		
+		Text label="PV Output" icon="energy" {
+				Switch item=PV_Chart_Period icon="energy" label="PV Chart Period" mappings=[0="Hour", 1="Day", 2="Week"] 
+				  Chart item=PV_Chart period=h refresh=6000 service="rrd4j" visibility=[PV_Chart_Period==0, PV_Chart_Period=="NULL"]
+				  Chart item=PV_Chart period=D refresh=30000 service="rrd4j" visibility=[PV_Chart_Period==1]
+				  Chart item=PV_Chart period=W refresh=30000 service="rrd4j" visibility=[PV_Chart_Period==2]
+				
+		}
+		Text label="Power" icon="energy" {
+				Switch item=Power_Chart_Period icon="energy" label="Power Chart Period" mappings=[0="Hour", 1="Day", 2="Week"] 
+				  Chart item=Power_Chart period=h refresh=6000 service="rrd4j" visibility=[Power_Chart_Period==0, Power_Chart_Period=="NULL"]
+				  Chart item=Power_Chart period=D refresh=30000 service="rrd4j" visibility=[Power_Chart_Period==1]
+				  Chart item=Power_Chart period=W refresh=30000 service="rrd4j" visibility=[Power_Chart_Period==2]				
+		}
+	}
+
+				
+/*
+		Text 		item=Zw_Danfoss1_Temp
+		Text 		item=Zw_Danfoss1_Bat
+		Text 		item=Zw_Danfoss2_Temp
+		Text 		item=Zw_Danfoss2_Bat
+		Text 		item=Zw_Danfoss3_Temp
+		Text 		item=Zw_Danfoss3_Bat
+		
+*/

@@ -1,0 +1,52 @@
+DateTime	Sunrise_Time	"Sunrise [%1$tH:%1$tM]"	{ astro="planet=sun, type=rise, property=start" }
+Switch	Sunrise_Event	{ astro="planet=sun, type=rise, property=start" }
+Switch	Sunrise_Event	{ astro="planet=sun, type=rise, property=start, offset=10" }
+Switch	Sunrise_Event	{ astro="planet=sun, type=rise, property=start, offset=-10" }
+DateTime	Sunset_Time	"Sunset [%1$tH:%1$tM]"	{ astro="planet=sun, type=set, property=end" }
+Switch	Sunset_Event	{ astro="planet=sun, type=set, property=end, offset=-30" }
+DateTime	Astronomical_Dawn_Start	"Astronomical Dawn Start [%1$tH:%1$tM]"	{ astro="planet=sun, type=astroDawn, property=start" }
+DateTime	Astronomical_Dawn_End	"Astronomical Dawn End [%1$tH:%1$tM]"	{ astro="planet=sun, type=astroDawn, property=end" }
+Number	Astronomical_Dawn_Duration	"Astronomical Dawn Duration [%f]"	{ astro="planet=sun, type=astroDawn, property=duration" }
+String	Astronomical_Dawn_Duration_Str	"Astronomical Dawn Duration [%s]"	{ astro="planet=sun, type=astroDawn, property=duration" }
+Number	Azimuth	"Azimuth [%.2f]"	{ astro="planet=sun, type=position, property=azimuth" }
+Number	Elevation	"Elevation [%.2f]"	(BM_Infrastructure){ astro="planet=sun, type=position, property=elevation" }
+DateTime	Zodiac_Start	"Zodiac Start [%1$td.%1$tm.%1$tY]"	{ astro="planet=sun, type=zodiac, property=start" }
+DateTime	Zodiac_End	"Zodiac End [%1$td.%1$tm.%1$tY]"	{ astro="planet=sun, type=zodiac, property=end" }
+String	Zodiac_Sign	"Current zodiac [%s]"	{ astro="planet=sun, type=zodiac, property=sign" }
+String	Season_Name	"Season [%s]"	{ astro="planet=sun, type=season, property=name" }
+DateTime	Season_Spring	"Spring [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=sun, type=season, property=spring" }
+DateTime	Season_Summer	"Summer [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=sun, type=season, property=summer" }
+DateTime	Season_Autumn	"Autumn [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=sun, type=season, property=autumn" }
+DateTime	Season_Winter	"Winter [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=sun, type=season, property=winter" }
+DateTime	Sun_Eclipse_Total	"Sun total eclipse [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=sun, type=eclipse, property=total" }
+DateTime	Sun_Eclipse_Partial	"Sun partial eclipse [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=sun, type=eclipse, property=partial" }
+DateTime	Sun_Eclipse_Ring	"Sun ring eclipse [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=sun, type=eclipse, property=ring" }
+DateTime	Moonrise_Time	"Moonrise [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=rise, property=start" }
+DateTime	Moonset_Time	"Moonset [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=set, property=end" }
+DateTime	Moon_First_Quarter	"First Quarter [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=phase, property=firstQuarter" }
+DateTime	Moon_Third_Quarter	"Third Quarter [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=phase, property=thirdQuarter" }
+DateTime	Moon_Full	"Full moon [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=phase, property=full" }
+DateTime	Moon_New	"New moon [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=phase, property=new" }
+Number	Moon_Age	"Moon Age [%.0f days]"	{ astro="planet=moon, type=phase, property=age" }
+Number	Moon_Illumination	"Moon Illumination [%.1f %%]"	{ astro="planet=moon, type=phase, property=illumination" }
+String	Moon_Phase_Name	"Moonphase [%s]"	{ astro="planet=moon, type=phase, property=name" }
+Number	Moon_Distance_K	"Moon distance [%.2f km]"	{ astro="planet=moon, type=distance, property=kilometer" }
+Number	Moon_Distance_M	"Moon distance [%.2f miles]"	{ astro="planet=moon, type=distance, property=miles" }
+DateTime	Moon_Distance_Time	"Moon distance from [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=distance, property=date" }
+DateTime	Moon_Eclipse_Total	"Moon total eclipse [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=eclipse, property=total" }
+DateTime	Moon_Eclipse_Partial	"Moon partial eclipse [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=eclipse, property=partial" }
+Number	Moon_Perigee_K	"Moon perigee [%.2f km]"	{ astro="planet=moon, type=perigee, property=kilometer" }
+Number	Moon_Perigee_M	"Moon perigee [%.2f miles]"	{ astro="planet=moon, type=perigee, property=miles" }
+DateTime	Moon_Perigee_Time	"Moon perigee from [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=perigee, property=date" }
+Number	Moon_Apogee_K	"Moon apogee [%.2f  km]"	{ astro="planet=moon, type=apogee, property=kilometer" }
+Number	Moon_Apogee_M	"Moon apogee [%.2f miles]"	{ astro="planet=moon, type=apogee, property=miles" }
+DateTime	Moon_Apogee_Time	"Moon apogee from [%1$td.%1$tm.%1$tY %1$tH:%1$tM]"	{ astro="planet=moon, type=apogee, property=date" }
+String	Moon_Zodiac_Sign	"Moon zodiac [%s]"	{ astro="planet=moon, type=zodiac, property=sign" }
+Number	Moon_Azimuth	"Moon azimuth [%.2f]"	{ astro="planet=moon, type=position, property=azimuth" }
+Number	Moon_Elevation	"Moon elevation [%.2f]"	{ astro="planet=moon, type=position, property=elevation" }
+Switch	Moon_Full_Event	{ astro="planet=moon, type=phase, property=full" }
+Switch	Moon_New_Event	{ astro="planet=moon, type=phase, property=new, offset=-10" }
+String	Zodiac_Sign_Ger	"Tierkreiszeichen [MAP(zodiac.map):%s]"	{ astro="planet=sun, type=zodiac, property=sign" }
+String	Season_Name_Ger	"Jahreszeit [MAP(season.map):%s]"	{ astro="planet=sun, type=season, property=name" }
+String	Moon_Phase_Ger	"Mondphase [MAP(moon.map):%s]"	{ astro="planet=moon, type=phase, property=name" }
+String	Moon_Zodiac_Sign_Ger	"Mondzeichen [MAP(zodiac.map):%s]"	{ astro="planet=moon, type=zodiac, property=sign" }

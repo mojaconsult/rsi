@@ -1,0 +1,172 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+import java.util.Date
+
+var Number counter = 1
+var Timer timer = null
+
+
+rule "Initialize contact states"
+	when 
+		System started
+	then
+		Doors?.members.forEach(Doors|
+			postUpdate(Doors, if(Math::random > 0.5) OPEN else CLOSED)
+		)
+end
+
+
+rule "Initialize Location"
+	when 
+		System started
+	then
+		RsiLocation.postUpdate(new PointType("47.1589111,6.9915021"))
+end
+
+
+rule "Astro Action Example"
+when
+    System started
+	Time cron "0 */1 * * * ?"
+then
+    var Date current = now.toDate
+    var double lat = 47.1589111
+    var double lon = 6.9915021
+
+    logInfo("sunRiseStart: ", new DateTimeType(getAstroSunriseStart(current, lat, lon)).toString)
+    logInfo("sunRiseEnd: ", new DateTimeType(getAstroSunriseEnd(current, lat, lon)).toString)
+
+    logInfo("sunSetStart: ", new DateTimeType(getAstroSunsetStart(current, lat, lon)).toString)
+    logInfo("sunSetEnd: ", new DateTimeType(getAstroSunsetEnd(current, lat, lon)).toString)
+
+//    postUpdate(Sun_Rise, new DateTimeType(getAstroSunsetStart(current, lat, lon)).toString)
+//    postUpdate(Sun_Set, new DateTimeType(getAstroSunsetEnd(current, lat, lon)).toString)
+    
+end
+
+rule "Set random temperature for boiler"
+	when 
+		System started or
+		Time cron "0 */1 * * * ?"
+	then
+		postUpdate(Temperature_Boiler, 65.0 + ((50.0 - Math::random * 100.0).intValue) / 10.0)
+end
+
+rule "Set random temperature for Heatpump"
+	when 
+		System started or
+		Time cron "0 */1 * * * ?"
+	then
+		postUpdate(Temperature_Heatpump, 28.0 + ((120.0 - Math::random * 240.0).intValue) / 10.0)
+end
+
+
+rule "Set random Global Irradiation"
+	when 
+		System started or
+		Time cron "0 */1 0-6,18-23 * * ?"
+	then
+		postUpdate(Irradiation_Global, 0.0)
+end
+
+rule "Global Irradiation"
+	when 
+		Time cron "0 */1 7-17 * * ?"
+	then
+		postUpdate(Irradiation_Global, 1250.0 + ((12500.0 - Math::random * 25000.0).intValue) / 10.0)
+end
+
+rule "Set random Power for PV up to 500W"
+	when 
+		Time cron "0 */1 * * * ?"
+	then
+		var Number ig = Irradiation_Global.state as DecimalType	
+		postUpdate(Power_PV, ig * 0.23)
+end
+
+rule "Inverter output"
+	when 
+		Time cron "0 */1 * * * ?"
+	then
+		var Number pv = Power_PV.state as DecimalType	
+		postUpdate(Power_Inverter, pv * 0.97)
+end
+
+rule "PV Angle"
+	when 
+		Time cron "0 */1 * 7-17 * ?"
+	then
+		postUpdate(Angle_PV, 180.0 + ((1800.0 - Math::random * 3600.0).intValue) / 10.0)
+end
+
+
+rule "Set power consumption E-Car to 0"
+	when 
+		System started or
+		Time cron "0  */5 0-11,17-23 * * ?"
+	then
+		postUpdate(Power_ECar, 0.0)
+end
+
+rule "Set power consumption E-Car to 2300"
+	when 
+		Time cron "0  */5 12-16 * * ?"
+	then
+		postUpdate(Power_ECar, 2300.0)
+end
+
+rule "Set power Other"
+	when 
+		System started or
+		Time cron "0  */1 * * * ?"
+	then
+		postUpdate(Power_Other, 180.0 + ((1800.0 - Math::random * 3600.0).intValue) / 10.0)
+end
+
+rule "Set power consumption Kitchen to 0"
+	when 
+		System started or
+		Time cron "0  */5 0-10,12-17,19-23 * * ?"
+	then
+		postUpdate(Power_Kitchen, 180.0 + ((1800.0 - Math::random * 3600.0).intValue) / 10.0)
+end
+
+rule "Set power consumption Kitchen to 1500"
+	when 
+		Time cron "0  30-59/5 11,18 * * ?"
+	then
+		postUpdate(Power_Kitchen, 1500.0)
+end
+
+rule "Total Consumption"
+	when 
+		Time cron "0 */1 * * * ?"
+	then
+		var Number po = Power_Other.state as DecimalType	
+		var Number pk = Power_Kitchen.state as DecimalType	
+		var Number pe = Power_ECar.state as DecimalType	
+		postUpdate(Power_Total, (pk + po + pe))
+end
+
+rule "From Grid"
+	when 
+		Time cron "0 */1 * * * ?"
+	then
+		var Number pt = Power_Total.state as DecimalType	
+		var Number pi = Power_Inverter.state as DecimalType	
+		postUpdate(Power_Grid, pt - pi)
+end
+
+
+
+
+/*
+Number Power_PV 						"Power prod. PV [%.1f kW]"					<power>			(Power, C_Infrastructure)
+Number Power_Battery 					"Power Battery [%.1f kW]"					<power>			(Power, C_Infrastructure)
+Number Power_Inverter 					"Power Inverter [%.1f kW]"					<power>			(Power, C_Infrastructure)
+Number Power_Heatpump 					"Power Heatpump [%.1f kW]"					<power>			(Power, C_Infrastructure)
+Number Power_ECar 						"Power E-Car [%.1f kW]"						<power>			(Power, C_Infrastructure)
+Number Irradiation_Global 				"Irradiation [%.1f ]"						<irradiation>	(Irradiation, C_Infrastructure)
+Number Angle_PV 						"Angle [%.1f ]"								<angle>			(Angle, C_Infrastructure)
+*/

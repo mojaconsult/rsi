@@ -1,0 +1,143 @@
+
+sitemap default label="default"
+{
+	Frame label="General" {
+		Switch item=Lights label="All lights" mappings=[OFF="All Off", ON="All On"]
+	}
+		/* Switch item=Lights mappings=[ON="Alle an"] */
+	Frame label="Floors" {
+		Group item=gBM label="Basement" icon="cellar"	
+		Group item=gGF label="Ground Floor" icon="groundfloor"
+		Group item=gFF label="First Floor" icon="firstfloor"
+		Group item=gSF label="Second Floor" icon="attic"
+		Group item=Outdoor icon="garden" 
+	}	
+	Frame label="Energy" {
+		Group item=BM_Infrastructure label="Infrastructure" icon="cellar"
+		
+		Text label="PV Output" icon="energy" {
+				Switch item=PV_Chart_Period icon="energy" label="PV Chart Period" mappings=[0="Hour", 1="Day", 2="Week"] 
+				  Chart item=PV_Chart period=h refresh=6000 service="rrd4j" visibility=[PV_Chart_Period==0, PV_Chart_Period=="NULL"]
+				  Chart item=PV_Chart period=D refresh=30000 service="rrd4j" visibility=[PV_Chart_Period==1]
+				  Chart item=PV_Chart period=W refresh=30000 service="rrd4j" visibility=[PV_Chart_Period==2]
+				
+		}
+		Text label="Power" icon="energy" {
+				Switch item=Power_Chart_Period icon="energy" label="Power Chart Period" mappings=[0="Hour", 1="Day", 2="Week"] 
+				  Chart item=Power_Chart period=h refresh=6000 service="rrd4j" visibility=[Power_Chart_Period==0, Power_Chart_Period=="NULL"]
+				  Chart item=Power_Chart period=D refresh=30000 service="rrd4j" visibility=[Power_Chart_Period==1]
+				  Chart item=Power_Chart period=W refresh=30000 service="rrd4j" visibility=[Power_Chart_Period==2]
+				
+		}
+	}
+
+	Frame label="Other" {
+		Text 			item=Date
+ 		Text label="Zodiac" icon="sun" {	
+			Text 	item=Sunrise_Time
+			Text	item=Sunset_Time
+			Text	item=Azimuth
+			Text	item=Elevation
+		}
+
+		Group item=Enocean label="Enocean Items" icon="cellar"	
+		Group item=Zwave label="Zwave Items" icon="cellar"	
+
+		Setpoint 	item=Zw_Danfoss1_Set minValue=4 maxValue=30 step=0.5
+		Setpoint 	item=Zw_Danfoss2_Set minValue=4 maxValue=30 step=0.5
+		Setpoint 	item=Zw_Danfoss3_Set minValue=4 maxValue=30 step=0.5
+		Switch		item=Zw_Cordswitch
+				
+/*
+		Text 		item=Zw_Danfoss1_Temp
+		Text 		item=Zw_Danfoss1_Bat
+		Text 		item=Zw_Danfoss2_Temp
+		Text 		item=Zw_Danfoss2_Bat
+		Text 		item=Zw_Danfoss3_Temp
+		Text 		item=Zw_Danfoss3_Bat
+		
+		Text item=Zw_Multisensor_Bat 
+		Text item=Zw_Multisensor_Temp icon="temperature"
+		Text item=Zw_Multisensor_Ver 
+
+		Text item=Zw_PST02_Battery 
+		Text item=Zw_PST02_Temp icon="temperature"
+		Text item=Zw_PST02_Motion
+		Text item=Zw_PST02_Door
+		Text item=Zw_PST02_Tamper
+		Text item=Zw_PST02_Lux
+*/
+		
+ 		Text label="Conditions" icon="sun" {
+		
+			Text			item=Condition_ID
+			Text			item=Condition_ID1
+			Text			item=Condition_ID2
+			Text			item=CommonId
+			Text			item=CommonId1
+			Text			item=CommonId2
+		}
+		
+ 		Text label="Radio Control" icon="network" {
+				Selection item=Radio_Station label="Radio Stations" icon="network" mappings=[0=off, 1=HR3, 2=SWR3, 3=FFH]
+				Slider item=Volume
+		}
+
+	}
+		
+	Frame label="Weather" {
+		Webview url="/weather?locationId=home&layout=example&iconset=colorful" height=7
+	}
+	Frame label="Lights" {
+
+		Text label="Fireside Lounge" icon="fire" {
+			Switch         item=Light_GF_Fireside_Ceiling   	                             							label="On/Off"
+			Colorpicker    item=Light_GF_Fireside_Ceiling_Color   	icon="colorwheel"			visibility=[Light_GF_Fireside_Ceiling==ON] 	label="Color"
+			Slider         item=Light_GF_Fireside_Ceiling_Dimm     								visibility=[Light_GF_Fireside_Ceiling==ON] 	label="Brightness" 
+			Slider         item=Light_GF_Fireside_Ceiling_CT_Dimm  								visibility=[Light_GF_Fireside_Ceiling==ON]	label="Color Temp."  
+		}
+		Text label="Dining Room" icon="sofa" {
+			Switch         item=Light_GF_Dining_Ceiling   	                             								label="On/Off"
+			Colorpicker    item=Light_GF_Dining_Ceiling_Color    	icon="colorwheel"				visibility=[Light_GF_Dining_Ceiling==ON]    label="Color"
+			Slider         item=Light_GF_Dining_Ceiling_Dimm     									visibility=[Light_GF_Dining_Ceiling==ON]    label="Brightness" 
+			Slider         item=Light_GF_Dining_Ceiling_CT_Dimm  									visibility=[Light_GF_Dining_Ceiling==ON]    label="Color Temp."  
+		}
+		Text label="Conservatory" icon="corridor" {
+			Switch         item=Light_GF_Conservatory_Ceiling 								label="On/Off"
+			Colorpicker    item=Light_GF_Conservatory_Ceiling_Color		icon="colorwheel" 	visibility=[Light_GF_Conservatory_Ceiling==ON]		label="Color"
+			Slider         item=Light_GF_Conservatory_Ceiling_Dimm     						visibility=[Light_GF_Conservatory_Ceiling==ON]		label="Brightness" 
+			Slider         item=Light_GF_Conservatory_Ceiling_CT_Dimm  						visibility=[Light_GF_Conservatory_Ceiling==ON]		label="Color Temp."  
+		}
+	}
+
+
+	Frame label="General Information" {
+		Text label="Map" icon="chart" {
+			Frame label="Map LaDécentral - RSI" {
+				Mapview item=RsiLocation height=20
+			}
+		}
+	}
+
+
+	Frame label="Weather" {
+		Text item=Weather_Temperature icon="climate" label="Outside" valuecolor=[Weather_LastUpdate=="Uninitialized"="lightgray",Weather_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"] {
+			Frame {
+				Text item=Weather_Temp_Max valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+				Text item=Weather_Temp_Min valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+				Text item=Weather_Humidity icon="climate" label="Humidity"
+				Text item=Weather_Pressure icon="barometer" label="Pressure"
+				Text item=Weather_Humidex icon="climate-on" label="Humidity Index"
+				Text item=Weather_LastUpdate visibility=[Weather_LastUpdate>30] valuecolor=[Weather_LastUpdate>120="orange", Weather_LastUpdate>300="red"]
+			}
+			Frame {
+				Switch item=Weather_Chart_Period icon="temperature" label="Chart Period" mappings=[0="Hour", 1="Day", 2="Week"] 
+					Chart item=Weather_Chart period=h refresh=6000 visibility=[Weather_Chart_Period==0, Weather_Chart_Period=="NULL"]
+					Chart item=Weather_Chart period=D refresh=30000 visibility=[Weather_Chart_Period==1]
+					Chart item=Weather_Chart period=W refresh=30000 visibility=[Weather_Chart_Period==2]
+				
+			}
+		}
+	}
+
+}

@@ -1,0 +1,226 @@
+/* RSI Floors and Rooms (Groups) */
+Group All
+Group gBM 		"Basement" 		(All)
+Group gGF 		"Ground Floor" 	(All)
+Group gFF 		"First Floor" 	(All)
+Group gSF 		"Second Floor"	(All)
+Group Outdoor	"Garden" 		<garden> 	(All)
+
+Group Shutters 	"Shutters"		(All)
+Group Windows 	"Windows"		(All)
+Group Doors 	"Doors"		(All)
+Group Status 	"Status" 		(All)
+Group Weather 	"Weather" 		(All)
+
+Group Weather_Chart	"Weather Chart" 	(Weather)
+Group PV_Chart	"PV Chart" 	(All)
+
+Group BM_Infrastructure "Infrastructure" 	<cellar> 	(gBM)
+
+Group GF_Corridor 		"Corridor" 			<corridor> 	(gGF)
+Group GF_Toilet 		"Toilet" 			<bath> 		(gGF)
+Group GF_Fireside 		"Fireside Lounge" 	<fire> 		(gGF)
+Group GF_Kitchen 		"Kitchen" 			<kitchen> 	(gGF)
+Group GF_Wardrobe 			"Wardrobe" 			<wardrobe> 	(gGF)
+Group GF_Dining 			"Dining" 			<sofa> 	(gGF)
+Group GF_Conservatory 	"Conservatory" 		<corridor> 	(gGF)
+
+Group FF_Corridor 		"Corridor" 			<corridor> 	(gFF)
+Group FF_Toilet 		"Toilet" 			<bath> 		(gFF)
+Group FF_Bath 			"Bathroom" 			<bath> 		(gFF)
+Group FF_Meeting 		"Meeting Room" 		<office> 	(gFF)
+Group FF_Bedroom1 		"Bedroom 1" 		<bedroom> 	(gFF)
+Group FF_Bedroom2 		"Bedroom 2" 		<bedroom> 	(gFF)
+Group FF_Balcony 		"Balcony" 			<terrace> 	(gFF)
+
+Group SF_Corridor 		"Corridor" 			<corridor> 	(gSF)
+Group SF_Bath 			"Bathroom" 			<bath> 		(gSF)
+Group SF_Bedroom3 		"Bedroom 3" 		<bedroom> 	(gSF)
+Group SF_Wards 			"Wards Room" 		<bedroom> 	(gSF)
+Group SF_Dormitory 		"Dormitory" 		<bedroom> 	(gSF)
+
+
+/* active groups */
+Group:Switch:OR(ON, OFF) 		Lights 		"All Lights [(%d)]" 								(All)
+Group:Switch:OR(ON, OFF) 		Heating 	"No. of Active Heatings [(%d)]" 	<heating> 		(All)
+Group:Number:AVG 				Temperature	"Avg. Room Temperature [%.1f °C]" 	<temperature>	(Status)
+Group:Contact:OR(OPEN, CLOSED) 	Windows 	"Open windows [(%d)]"				<contact>		(All)
+
+/* Demo energy Items */
+Number Temperature_Boiler 				"Boiler Temp. [%.1f °C]"			<smartheater>	(Temp, BM_Infrastructure)
+Number Temperature_Heatpump				"Heatpump Output Temp. [%.1f °C]"	<temperature>	(Temp, BM_Infrastructure)
+Number Power_Kitchen					"Kitchen consumption [%.1f W]"		<kitchen>		(Power, BM_Infrastructure)
+Number Power_Battery 					"Battery Output [%.1f W]"			<energy>			(Power, BM_Infrastructure)
+Number Power_Grid 						"Grid Output [%.1f W]"				<energy>			(Power, BM_Infrastructure)
+Number Power_Other 						"Other Consumption [%.1f W]"		<energy>			(Power, BM_Infrastructure)
+Number Power_Total 						"Total Consumption [%.1f W]"		<energy>			(Power, BM_Infrastructure)
+Number Power_Inverter 					"Inverter Output [%.1f W]"			<inverter>			(Power, BM_Infrastructure)
+Number Power_Heatpump 					"Heatpump Consumption [%.1f W]"		<energy>			(Power, BM_Infrastructure)
+Number Power_ECar 						"E-Car Charging [%.1f W]"			<energy>			(Power, BM_Infrastructure)
+Number Irradiation_Global 				"Global Irradiation [%.1f W/h]"		<sun>	(Irradiation, BM_Infrastructure)
+Number Angle_PV 						"PV-Tracker Angle [%.1f °]"			<angle>			(Angle, BM_Infrastructure)
+
+Number Power_PV 						"Pv Output [%.1f W]"				<solarplant>	(PV_Chart, Power, BM_Infrastructure)
+Number PV_Chart_Period					"PV Chart Period"
+
+
+/* Switch mySwitch {mqtt=">[mybroker:/myhouse/office/light:command:ON:1],>[mybroker:/myhouse/office/light:command:OFF:0]"}
+*/
+
+/* yet unknown how to send ON and OFF to same channel */
+Switch Toggle_1 				{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+/* Switch Toggle_1 				{mqtt=">[xively:/v2/feeds/968086980.csv:state:OFF:${itemName}, 0]"}
+*/
+
+/* xively Feeds */
+Number Weather_Temperature 		{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+Number Power_PV 				{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+Number Weather_Humidity 		{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+Number Power_Grid 				{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+Number Power_Kitchen 			{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+Number Power_Heatpump 			{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+Number Power_Battery 			{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+Number Power_ECar 				{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+Number Irradiation_Global		{mqtt=">[xively:/v2/feeds/968086980.csv:state:*:${itemName}, ${state}]"}
+
+
+/* Active Items */
+Switch Light_GF_Fireside_Ceiling   				"On/Off"   				(GF_Fireside, Switching, Lights) 		{hue="1"}
+Switch Light_GF_Dining_Ceiling   				"On/Off" 				(GF_Dining, Switching, Lights) 	{hue="2"}
+Switch Light_GF_Conservatory_Ceiling     		"On/Off"  				(GF_Conservatory, Switching, Lights) 			{hue="3"}
+
+Color Light_GF_Fireside_Ceiling_Color     		"Color"   				(GF_Fireside, Colorize)  				{hue="1"}
+Color Light_GF_Dining_Ceiling_Color       		"Color" 				(GF_Dining, Colorize)  			{hue="2"}
+Color Light_GF_Conservatory_Ceiling_Color     	"Color"  				(GF_Conservatory, Colorize)  					{hue="3"}
+
+Dimmer Light_GF_Fireside_Ceiling_Dimm     		"Brightness"   			(GF_Fireside, WhiteDimmer)   			{hue="1;brightness;30"}
+Dimmer Light_GF_Dining_Ceiling_Dimm     		"Brightness" 			(GF_Dining, WhiteDimmer)   		{hue="2;brightness;30"}
+Dimmer Light_GF_Conservatory_Ceiling_Dimm     	"Brightness"  			(GF_Conservatory, WhiteDimmer)   				{hue="3;brightness;30"}
+
+Dimmer Light_GF_Fireside_Ceiling_CT_Dimm    	"Color Temp." 			(GF_Fireside, CTDimmer)  				{hue="1;colorTemperature;30"}
+Dimmer Light_GF_Dining_Ceiling_CT_Dimm    		"Color Temp." 			(GF_Dining, CTDimmer)  			{hue="2;colorTemperature;30"}
+Dimmer Light_GF_Conservatory_Ceiling_CT_Dimm    "Color Temp."  			(GF_Conservatory, CTDimmer)  					{hue="3;colorTemperature;30"}
+
+
+
+/* Passive Items */
+Switch Light_BM_Corridor_Ceiling 	"Light Ceiling" 				(gBM, Lights)
+Switch Light_BM_Staircase 			"Light Staircase" 				(gBM, Lights)
+Switch Light_BM_Washing_Ceiling 	"Light Washing" 				(gBM, Lights)
+Switch Light_BM_Workshop 			"Light Workshop" 				(gBM, Lights)
+
+Switch Light_GF_Corridor_Ceiling 	"Light Corridor Ceiling" 		(GF_Corridor, Lights)
+Switch Light_GF_Wardrobe_Ceiling 		"Light Wardrobe"	 			(GF_Wardrobe, Lights)
+Switch Light_GF_Toilet_Ceiling 		"Light Toilet Ceiling" 			(GF_Toilet, Lights)
+Switch Light_GF_Kitchen_Ceiling 	"Light Kitchen Ceiling" 		(GF_Kitchen, Lights)
+Switch Light_GF_Kitchen_Table 		"Light Kitchen Table" 			(GF_Kitchen, Lights)
+
+Switch Light_FF_Corridor_Ceiling 	"Light Corridor Ceiling" 		(FF_Corridor, Lights)
+Switch Light_FF_Toilet_Ceiling 		"Light Toilet Mirror" 			(FF_Toilet, Lights)
+Switch Light_FF_Bath_Ceiling 		"Light Bathroom Ceiling" 		(FF_Bath, Lights)
+Switch Light_FF_Meeting_Ceiling 	"Light Meeting Ceiling" 		(FF_Meeting, Lights)
+Switch Light_FF_Bedroom1_Ceiling 	"Light Bedroom 1 Ceiling" 		(FF_Bedroom1, Lights)
+Switch Light_FF_Bedroom2_Ceiling 	"Light Bedroom 2 Ceiling" 		(FF_Bedroom2, Lights)
+Switch Light_FF_Balcony_Ceiling 	"Light Balcony Ceiling" 		(FF_Balcony, Lights)
+
+Switch Light_SF_Corridor_Ceiling 	"Light Corridor Ceiling" 		(SF_Corridor, Lights)
+Switch Light_SF_Bath_Ceiling 		"Light Bathroom Ceiling" 		(SF_Bath, Lights)
+Switch Light_SF_Wards_Ceiling 		"Light Wards Ceiling" 			(SF_Wards, Lights)
+Switch Light_SF_Dormitory_Ceiling 	"Light Dormitory Ceiling" 		(SF_Dormitory, Lights)
+Switch Light_SF_Bedroom3_Ceiling 	"Light Bedroom 3 Ceiling" 		(SF_Bedroom3, Lights)
+
+Switch Light_Outdoor_Gate			"Light Gate" 					(Outdoor, Lights)
+Switch Light_Outdoor_Terrace 		"Light Terrace" 				(Outdoor, Lights)
+Switch Light_Outdoor_Frontdoor 		"Light Frontdoor"				(Outdoor, Lights)
+
+/* Heating */
+Switch Heating_GF_Corridor 	"Heating Corridor" 	<heating>	(GF_Corridor, Heating)
+Switch Heating_GF_Toilet 	"Heating Toilet"	 	<heating>	(GF_Toilet, Heating)
+Switch Heating_GF_Living 	"Heating Livingroom" 	<heating>	(GF_Living, Heating)
+Switch Heating_GF_Kitchen 	"Heating Kitchen" 		<heating>	(GF_Kitchen, Heating)
+
+Switch Heating_FF_Bath 		"Heating Bath" 			<heating>	(FF_Bath, Heating)
+Switch Heating_FF_Office 	"Heating Office" 		<heating>	(FF_Office, Heating)
+Switch Heating_FF_Child 	"Heating Child's Room" 	<heating>	(FF_Child, Heating)
+Switch Heating_FF_Bed 		"Heating Bedroom" 		<heating>	(FF_Bed, Heating)
+
+/* Rollershutters */
+Switch Shutter_all (Shutters)
+
+Rollershutter Shutter_GF_Toilet 		"Rollershutter Toilet"		(GF_Toilet, Shutters)
+Rollershutter Shutter_GF_Kitchen 		"Rollershutter Kitchen"		(GF_Kitchen, Shutters)
+Rollershutter Shutter_GF_Living 		"Rollershutter Livingroom"	(GF_Living, Shutters)
+
+Rollershutter Shutter_FF_Bed 			"Rollershutter Bedroom"		(FF_Bed, Shutters)
+Rollershutter Shutter_FF_Bath 			"Rollershutter Bath"			(FF_Bath, Shutters)
+Rollershutter Shutter_FF_Office_Window	"Rollershutter Office Window"	(FF_Office, Shutters)
+Rollershutter Shutter_FF_Office_Door 	"Rollershutter Office Door"	(FF_Office, Shutters)
+
+/* Indoor Temperatures */
+Number Temperature_GF_Corridor 	"Temperature Corridor [%.1f °C]"	<temperature>	(Temperature, GF_Corridor)
+Number Temperature_GF_Toilet 	"Temperature Toilet[%.1f °C]"		<temperature>	(Temperature, GF_Toilet)
+Number Temperature_GF_Living 	"Temperature Living room [%.1f °C]"	<temperature>	(Temperature, GF_Living)
+Number Temperature_GF_Kitchen 	"Temperature Kitchen [%.1f °C]"		<temperature>	(Temperature, GF_Kitchen)
+
+Number Temperature_FF_Bath 		"Temperature Bathroom [%.1f °C]"	<temperature>	(Temperature, FF_Bath)
+Number Temperature_FF_Office 	"Temperature Office [%.1f °C]"		<temperature>	(Temperature, FF_Office)
+Number Temperature_FF_Child 	"Temperature Childroom [%.1f °C]"	<temperature>	(Temperature, FF_Child)
+Number Temperature_FF_Bed 		"Temperature Bedroom [%.1f °C]"		<temperature>	(Temperature, FF_Bed)
+
+/* Windows */
+Contact Window_GF_Frontdoor 	"Open Frontdoor [MAP(en.map):%s]"		<window>	(GF_Corridor, Windows)
+Contact Window_GF_Toilet 		"Open Toilet Window [MAP(en.map):%s]"	<window>	(GF_Toilet, Windows)
+Contact Window_GF_Dining 		"Open Dining Window [MAP(en.map):%s]"	<window>	(GF_Dining, Windows)
+Contact Window_GF_Fireside 		"Open Fireside Window [MAP(en.map):%s]"	<window>	(GF_Fireside, Windows)
+Contact Window_GF_Kitchen_door 	"Open Kitchen Window [MAP(en.map):%s]"	<window>	(GF_Kitchen, Windows)
+Contact Window_GF_Conservatory_frontdoor 		"Open Concervatory Frontdoor [MAP(en.map):%s]"		<window>	(GF_Conservatory, Windows)
+Contact Window_GF_Conservatory_terracedoor 		"Open Concervatory Terrace Door [MAP(en.map):%s]"	<window>	(GF_Conservatory, Windows)
+
+Contact Window_FF_Bath 					"Open Bath Window [MAP(en.map):%s]"			<window>	(FF_Bath, Windows)
+Contact Window_FF_Bedroom1_north 		"Open Bedroom 1 North Window [MAP(en.map):%s]"	<window>	(FF_Bedroom1, Windows)
+Contact Window_FF_Bedroom1_west 		"Open Bedroom 1 West Window [MAP(en.map):%s]"	<window>	(FF_Bedroom1, Windows)
+Contact Window_FF_Bedroom2 				"Open Bedroom 2 Window [MAP(en.map):%s]"	<window>	(FF_Bedroom2, Windows)
+Contact Window_FF_Meeting 				"Open Office Window [MAP(en.map):%s]"		<window>	(FF_Meeting, Windows)
+Contact Window_FF_Meeting_door 			"Open Balcony Door [MAP(en.map):%s]"		<door>		(FF_Office, Doors)
+
+Contact Window_SF_Bath 				"Open Bath Window [MAP(en.map):%s]"			<window>	(FF_Bath, Windows)
+Contact Window_SF_Bedroom3 			"Open Bedroom 3 Window [MAP(en.map):%s]"	<window>	(FF_Bedroom3, Windows)
+Contact Window_SF_Dormitory 		"Open Dormitory Window [MAP(en.map):%s]"	<window>	(FF_Dormitory, Windows)
+Contact Window_SF_Wards 			"Open Wards Window [MAP(en.map):%s]"	<window>	(FF_Wards, Windows)
+
+Contact Garage_Door 			"Open Garage Door [MAP(en.map):%s]"		<garagedoor>	(Outdoor, Doors, Garden)
+
+Number Weather_Temperature 		"Outside Temperature [%.1f °C]"	<temperature> (Weather_Chart, Garden) { http="<[http://weather.yahooapis.com/forecastrss?w=638242&u=c:60000:XSLT(yahoo_weather_temperature.xsl)]" }
+Number Weather_Temp_Max 		"Todays Maximum [%.1f °C]"		<temperature> (Weather_Chart, Garden)
+Number Weather_Temp_Min 		"Todays Minimum [%.1f °C]"		<temperature> (Weather_Chart)
+Number Weather_Chart_Period		"Weather Chart Period"
+
+Number Weather_Humidity 		"Outside Humidity [%.1f %%]"	<temperature> (Weather, Garden) { http="<[http://weather.yahooapis.com/forecastrss?w=638242&u=c:60000:XSLT(yahoo_weather_humidity.xsl)]" }
+Number Weather_Humidex			"Humidex [SCALE(humidex.scale):%s]" 			(Weather, Garden)
+DateTime Weather_LastUpdate		"Weather Last Update [%1$ta %1$tR]"	<clock>
+
+DateTime Sun_Rise "Sunrise [%1$tA, %1$td.%1$tm.%1$tY]" <calendar>
+DateTime Sun_Set "Sunset [%1$tA, %1$td.%1$tm.%1$tY]" <calendar>
+
+
+/* NTP binding demo item */
+DateTime		Date			"Date [%1$tA, %1$td.%1$tm.%1$tY]"	<calendar>	{ ntp="Europe/Berlin:de_DE" }
+
+Number Radio_Station			"Radio Station"					<radio>
+Dimmer Volume 					"Volume Dimmer [%.1f %%]"
+
+/* Demo items */
+Switch DemoSwitch				"Demo Switch"
+Dimmer DimmedLight				"Demo Dimmer [%d %%]"		<slider>
+Color  RGBLight					"Demo RGB Light"				<slider>
+Rollershutter DemoShutter	 	"Demo Roller Shutter"
+Dimmer DemoBlinds			 	"Demo Blinds [%d %%]"		<rollershutter>
+Number Scene_General			"Demo Scene Sofa"					<sofa>
+Number Temperature_Setpoint		"Demo Temperature [%.1f °C]" <temperature>
+
+String UnknownDevices    "Unknown Devices in Range: [%s]" { bluetooth="?" }
+Number NoOfPairedDevices "Paired Devices in Range: [%d]"  { bluetooth="!" }
+
+/* Locations */
+Location DemoLocation			"MojaOffice, Köniz"
+Location RsiLocation			"LaDécentral - RSI, Mont-Soleil"

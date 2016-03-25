@@ -1,0 +1,19 @@
+Group Enocean 	"Enocean" 		(All)
+
+/* PTM210DB Aladin Flextron*/
+Switch 	En_Rocker_left	"PTM210DB Rocker Left [%s]" 	<contact> 				(Enocean) 	{enocean="{id=00:2B:61:A4, eep=F6:02:01, channel=A}"}   
+Switch 	En_Rocker_Right "PTM210DB Rocker Right [%s]"	<contact> 				(Enocean) 	{enocean="{id=00:2B:61:A4, eep=F6:02:01, channel=B}"}   
+
+/* RHTE06 Sensortec, second entry needed for the first to work decently */
+Number 	En_Temperature1 "RHTE06 Temp. 1 [%.1f °C]" 		<temperature> 			(Enocean)	{enocean="{id=01:82:34:D5, eep=A5:02:05, parameter=TEMPERATURE}"}
+
+/* Number 	En_Temperature2 "RHTE06 Temp. 2 [%.1f °C]" 		<temperature> 			(Enocean)	{enocean="{id=01:82:34:D5, eep=A5:02:05}"}
+*/
+
+/* STM250DB Enocean Window Contact -- Possibly not yet supported, shows always "CLOSED" find the ID through EnOceanSpy Software */
+Contact En_Window1 		"STM250DB Contact1 [%s]" 		<contact> 		(Enocean) 	{enocean="{id=09:00:01:FF, eep=D5:00:01, parameter=CONTACT_STATE"}  
+Contact En_Window2 		"STM250DB Contact2 [%s]" 		<contact> 		(Enocean) 	{enocean="{id=09:00:01:FF, eep=D5:00:01"}  
+
+ 
+
+

@@ -1,0 +1,98 @@
+Group Zwave 	"Zwave" 		(All)
+Group Zw_Danfoss5 	"Danfoss living Connect 5"		(Heating)
+Group Zw_Danfoss6 	"Danfoss living Connect 6"		(Heating)
+Group Zw_Danfoss7 	"Danfoss living Connect 7"		(Heating)
+Group Zw_PST02 		"Group PST02"					(Multisensor)
+Group gZwaveStats	"ZWave Statistics"				(All)
+
+Number ZwaveStatsSOF 		"Number Start of Frames[%s]" 		(gZwaveStats) 	{zwave="1:command=info,item=sof"}
+Number ZwaveStatsACK 		"Number of Acknowledgments [%s]" 	(gZwaveStats) 	{zwave="1:command=info,item=ack"}
+Number ZwaveStatsCAN 		"Number of CAN [%s]" 				(gZwaveStats) 	{zwave="1:command=info,item=can"}
+Number ZwaveStatsNAK 		"Number of NAK [%s]"				(gZwaveStats) 	{zwave="1:command=info,item=nak"}
+Number ZwaveStatsOOF 		"Number of OOF [%s]" 				(gZwaveStats) 	{zwave="1:command=info,item=oof"}
+Number ZwaveStatsTimeout 	"Number of Time-outs [%s]" 			(gZwaveStats) 	{zwave="1:command=info,item=time_out"}
+String ZwaveNode01HomeID    "Home ID [%s]" 						(gZwaveStats) 	{zwave="1:command=info,item=home_id"}
+Number ZwaveNode01NetworkID "Node ID [%s]" 						(gZwaveStats) 	{zwave="1:command=info,item=node_id"}
+
+/* Z-Wave.Me KeyFob http://www.pepper1.net/zwavedb/device/488 */
+Number Zw_Keyfob_bat   			"Battery [%s %%]"   	(Zwave, GF_Fireside, Switching, Lights) {zwave="12:command=battery"}
+
+/*
+Switch Remote_ButtonX "Switch 10 basic [%s]" (Zwave) { zwave="12:command=BASIC,respond_to_basic=true,refresh_interval=2" }
+*/
+
+/* TESTING Z-Wave.Me KeyFob */
+
+Switch Remote_Button_Sw  "Switch 12 [%d %%]" 	(Zwave) { zwave="12:command=SCENE_ACTIVATION, scene=11" }
+Dimmer Remote_Button_Di  "Dimmer 12 [%d %%]" 	(Zwave) { zwave="12:command=SCENE_ACTIVATION, scene=13" }
+
+
+Switch Remote_Button_Sw1  "Switch 12 [%d %%]" 	(Zwave) { zwave="12:1:command=SWITCH_BINARY" }
+Switch Remote_Button_Sw2  "Switch 12 [%d %%]" 	(Zwave) { zwave="12:2:command=SWITCH_BINARY" }
+Switch Remote_Button_Sw3  "Switch 12 [%d %%]" 	(Zwave) { zwave="12:3:command=SWITCH_BINARY" }
+Dimmer Remote_Button_Di1  "Dimmer 12 [%d %%]" 	(Zwave) { zwave="12:1:command=SWITCH_MULTILEVEL" }
+Dimmer Remote_Button_Di2  "Dimmer 12 [%d %%]" 	(Zwave) { zwave="12:2:command=SWITCH_MULTILEVEL" }
+Dimmer Remote_Button_Di3  "Dimmer 12 [%d %%]" 	(Zwave) { zwave="12:3:command=SWITCH_MULTILEVEL" }
+
+Dimmer Remote_Button1 "Dimmer 12:1 [%d %%]" (Zwave) { zwave="10:1:command=switch_multilevel,restore_last_value=true,respond_to_basic=true,refresh_interval=2" }
+Dimmer Remote_Button2 "Dimmer 12:2 [%d %%]" (Zwave) { zwave="10:2:command=switch_multilevel,restore_last_value=true,respond_to_basic=true,refresh_interval=2" }
+Dimmer Remote_Button3 "Dimmer 12:3 [%d %%]" (Zwave) { zwave="10:3:command=switch_multilevel,restore_last_value=true,respond_to_basic=true,refresh_interval=2" }
+Dimmer Remote_Button4 "Dimmer 12:4 [%d %%]" (Zwave) { zwave="10:4:command=switch_multilevel,restore_last_value=true,respond_to_basic=true,refresh_interval=2" }
+
+Dimmer Remote_Button3 "Dimmer 10:3 [%d %%]" (Zwave) { zwave="10:3:command=BASIC,restore_last_value=true,respond_to_basic=true,refresh_interval=2" }
+
+Switch    ZwaveDeviceBasic_0   "Switch 10:0 basic [%s]"    	(Zwave) { zwave="10:0:command=BASIC" }
+Switch    ZwaveDeviceBasic_1   "Switch 10:1 basic [%s]"   	(Zwave) { zwave="10:1:command=BASIC" }
+
+
+/* the following does not work, even that it is the exact same as in the next chapter */
+/*
+Number  Zw_Door_Battery 		"Battery [%s %%]" 				<socket> 		(Zwave, GF_Living) 			{ zwave="9:0:command=BATTERY,refresh_interval=360" }
+*/
+
+/* Philo PST02-1A Multisensor */
+Number  Zw_PST02_Battery    "PST02 Battery [%s %%]"      	<slider> 		(gGF, Zwave, Zw_PST02)  {zwave="9:0:command=BATTERY,refresh_interval=360"}
+Number  Zw_PST02_Temp 		"PST02 Temp. [%.1f C]"       	<temperature>	(gGF, Zwave, Zw_PST02) 	{zwave="9:0:command=SENSOR_MULTILEVEL,sensor_type=1,sensor_scale=0"}
+Number  Zw_PST02_Lux 		"PST02 Light [%.0f Lux]"    	<slider>			(gGF, Zwave, Zw_PST02)	{zwave="9:0:command=SENSOR_MULTILEVEL,sensor_type=3"}
+Contact Zw_PST02_Door     	"PST02 Door state [%s]" 		<frontdoor> 	(gGF, Zwave, Zw_PST02)	{zwave="9:0:command=SENSOR_BINARY,sensor_type=10,respond_to_basic=true"}
+Contact Zw_PST02_Motion     "PST02 Motion [MAP(motion.map):%s]"	<motion> 	(gGF, Zwave, Zw_PST02)	{zwave="9:0:command=SENSOR_BINARY,sensor_type=12,respond_to_basic=true"}
+
+/* Danfoss living connect Z */
+Number Zw_Danfoss5_Bat 			"Living Batterie [%d %%]" 		<energy> 		(Zw_Danfoss5,Heating,GF_Living,Batteries,Zwave) 	{ zwave="5:command=battery,refresh_interval=3600"}
+Number Zw_Danfoss_Set_5 		"Living Setpoint [%.1f C]" 		<temperature> 	(Zw_Danfoss5,Heating,GF_Living,Heating_Setpoints,Zwave) 	{ zwave="5:command=thermostat_setpoint,setpoint_type=1,setpoint_scale=0,refresh_interval=900"}
+Number Zw_Danfoss5_Temp 		"Living Temp. [%.1f C]" 		<temperature> 	(Zw_Danfoss5,Heating,GF_Living,Temperature,Zwave) { zwave="5:command=sensor_multilevel,sensor_type=1,refresh_interval=3600"}
+
+/* Danfoss living connect Z */
+Number Zw_Danfoss6_Bat 			"Sleeping Batterie [%d %%]" 	<energy> 		(Zw_Danfoss6,Heating,GF_Sleeping,Batteries,Zwave) 	{ zwave="6:command=battery,refresh_interval=3600"}
+Number Zw_Danfoss_Set_6 		"Sleeping Setpoint [%.1f C]" 	<temperature> 	(Zw_Danfoss6,Heating,GF_Sleeping,Heating_Setpoints,Zwave) 	{ zwave="6:command=thermostat_setpoint,setpoint_type=1,setpoint_scale=0,refresh_interval=900"}
+Number Zw_Danfoss6_Temp 		"Sleeping Temp. [%.1f C]" 		<temperature> 	(Zw_Danfoss6,Heating,GF_Sleeping,Temperature,Zwave) 	{ zwave="6:command=sensor_multilevel,sensor_type=1,refresh_interval=3600"}
+
+/* Danfoss living connect Z */
+Number Zw_Danfoss7_Bat 		"Office Batterie [%d %%]" <energy> 				(Zw_Danfoss7,Heating,GF_Office,Batteries,Zwave) 	{ zwave="7:command=battery,refresh_interval=3600"}
+Number Zw_Danfoss_Set_7 		"Office Setpoint [%.1f C]" 	<temperature> 		(Zw_Danfoss7,Heating,GF_Office,Heating_Setpoints,Zwave) 	{ zwave="7:command=thermostat_setpoint,setpoint_type=1,setpoint_scale=0,refresh_interval=900"}
+Number Zw_Danfoss7_Temp 	"Office Temp. [%.1f C]" 	<temperature> 		(Zw_Danfoss7,Heating,GF_Office,Temperature,Zwave) 	{ zwave="7:command=sensor_multilevel,sensor_type=1,refresh_interval=3600"}
+
+/* Swiid SW-ZCS-1 Cord Switch */
+Switch Zw_Cordswitch   		"Cord Switch On/Off"   							(Zwave, GF_Sleeping, Switching, Lights) 		{zwave="8:0:command=switch_binary,refresh_interval=15"}
+
+/*
+Switch sTv "TV" (gTv) {zwave="4:command=switch_binary,refresh_interval=15"}
+*/
+
+
+/* Z-Wave.Me KeyFob Sceens https://groups.google.com/forum/#!topic/openhab/lWIlXV6yyYY */
+/*
+Switch KFob_Button1 "KFOB Button 1" (Zwave) { zwave="10:1:command=SCENE_ACTIVATION,scene=11,state=1"  }
+Switch KFob_Button3 "KFOB Button 3" (Zwave) { zwave="10:1:command=SCENE_ACTIVATION,scene=12,state=0"  }
+*/
+/* https://groups.google.com/forum/#!topic/openhab/AvjAZbpzAgg
+Switch Multiswitch_1_1  "Switch Gang, venstre op [%s]"  <pie>                   (Multiswitch)   {zwave="46:1:command=scene_activation,scene=11,state=1"}
+Switch Multiswitch_1_2  "Switch Gang, venstre ned [%s]" <pie>                   (Multiswitch)   {zwave="46:1:command=scene_activation,scene=12,state=1"}
+Switch Multiswitch_1_3  "Switch Gang, højre op [%s]"    <pie>                   (Multiswitch)   {zwave="46:1:command=scene_activation,scene=21,state=1"}
+Switch Multiswitch_1_4  "Switch Gang, højre ned [%s]"   <pie>                   (Multiswitch)   {zwave="46:1:command=scene_activation,scene=22,state=1"}
+Switch Multiswitch_1_5  "Switch Gang, dobbelt venstre op [%s]"  <pie>           (Multiswitch)   {zwave="46:1:command=scene_activation,scene=31,state=1"}
+Switch Multiswitch_1_6  "Switch Gang, dobbelt venstre ned [%s]" <pie>           (Multiswitch)   {zwave="46:1:command=scene_activation,scene=32,state=1"}
+Switch Multiswitch_1_7  "Switch Gang, dobbelt højre op [%s]"    <pie>           (Multiswitch)   {zwave="46:1:command=scene_activation,scene=41,state=1"}
+Switch Multiswitch_1_8  "Switch Gang, dobbelt højre ned [%s]"   <pie>           (Multiswitch)   {zwave="46:1:command=scene_activation,scene=42,state=1"}
+
+*/

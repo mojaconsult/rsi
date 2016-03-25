@@ -1,0 +1,86 @@
+
+sitemap rsi label="LaDécentral - RSI"
+{
+	Switch item=Lights label="All lights" mappings=[OFF="All Off", ON="All On"]
+		/* Switch item=Lights mappings=[ON="Alle an"] */
+	Frame label="Floors" {
+		Group item=gBM label="Basement" icon="cellar"	
+		Group item=gGF label="Ground Floor" icon="groundfloor"
+		Group item=gFF label="First Floor" icon="firstfloor"
+		Group item=gSF label="Second Floor" icon="attic"
+		Group item=Outdoor icon="garden" 
+	}	
+	Frame label="Energy" {
+		Group item=BM_Infrastructure label="Infrastructure" icon="cellar"
+		
+		Text label="PV Output" icon="energy" {
+				Switch item=PV_Chart_Period icon="energy" label="PV Chart Period" mappings=[0="Hour", 1="Day", 2="Week"] 
+				  Chart item=PV_Chart period=h refresh=6000 service="rrd4j" visibility=[PV_Chart_Period==0, PV_Chart_Period=="NULL"]
+				  Chart item=PV_Chart period=D refresh=30000 service="rrd4j" visibility=[PV_Chart_Period==1]
+				  Chart item=PV_Chart period=W refresh=30000 service="rrd4j" visibility=[PV_Chart_Period==2]
+				
+		}
+	}
+
+	Frame label="Other" {
+		Text 			item=Date
+ 		Text label="Radio Control" icon="network" {
+				Selection item=Radio_Station label="Radio Stations" icon="network" mappings=[0=off, 1=HR3, 2=SWR3, 3=FFH]
+				Slider item=Volume
+		}
+
+	}
+		
+	Frame label="Lights" {
+
+		Text label="Fireside Lounge" icon="fire" {
+			Switch         item=Light_GF_Fireside_Ceiling   	                             							label="On/Off"
+			Colorpicker    item=Light_GF_Fireside_Ceiling_Color   	icon="colorwheel"			visibility=[Light_GF_Fireside_Ceiling==ON] 	label="Color"
+			Slider         item=Light_GF_Fireside_Ceiling_Dimm     								visibility=[Light_GF_Fireside_Ceiling==ON] 	label="Brightness" 
+			Slider         item=Light_GF_Fireside_Ceiling_CT_Dimm  								visibility=[Light_GF_Fireside_Ceiling==ON]	label="Color Temp."  
+		}
+		Text label="Dining Room" icon="sofa" {
+			Switch         item=Light_GF_Dining_Ceiling   	                             								label="On/Off"
+			Colorpicker    item=Light_GF_Dining_Ceiling_Color    	icon="colorwheel"				visibility=[Light_GF_Dining_Ceiling==ON]    label="Color"
+			Slider         item=Light_GF_Dining_Ceiling_Dimm     									visibility=[Light_GF_Dining_Ceiling==ON]    label="Brightness" 
+			Slider         item=Light_GF_Dining_Ceiling_CT_Dimm  									visibility=[Light_GF_Dining_Ceiling==ON]    label="Color Temp."  
+		}
+		Text label="Conservatory" icon="corridor" {
+			Switch         item=Light_GF_Conservatory_Ceiling 								label="On/Off"
+			Colorpicker    item=Light_GF_Conservatory_Ceiling_Color		icon="colorwheel" 	visibility=[Light_GF_Conservatory_Ceiling==ON]		label="Color"
+			Slider         item=Light_GF_Conservatory_Ceiling_Dimm     						visibility=[Light_GF_Conservatory_Ceiling==ON]		label="Brightness" 
+			Slider         item=Light_GF_Conservatory_Ceiling_CT_Dimm  						visibility=[Light_GF_Conservatory_Ceiling==ON]		label="Color Temp."  
+		}
+	}
+
+
+	Frame label="General Information" {
+		Text label="Map" icon="chart" {
+			Frame label="Map LaDécentral - RSI" {
+				Mapview item=RsiLocation height=20
+			}
+		}
+	}
+
+
+	Frame label="Weather" {
+		Text item=Weather_Temperature icon="climate" label="Outside" valuecolor=[Weather_LastUpdate=="Uninitialized"="lightgray",Weather_LastUpdate>90="lightgray",>25="orange",>15="green",>5="orange",<=5="blue"] {
+			Frame {
+				Text item=Weather_Temp_Max valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+				Text item=Weather_Temp_Min valuecolor=[>25="orange",>15="green",>5="orange",<=5="blue"]
+				Text item=Weather_Humidity icon="climate" label="Humidity"
+				Text item=Weather_Pressure icon="barometer" label="Pressure"
+				Text item=Weather_Humidex icon="climate-on" label="Humidity Index"
+				Text item=Weather_LastUpdate visibility=[Weather_LastUpdate>30] valuecolor=[Weather_LastUpdate>120="orange", Weather_LastUpdate>300="red"]
+			}
+			Frame {
+				Switch item=Weather_Chart_Period icon="temperature" label="Chart Period" mappings=[0="Hour", 1="Day", 2="Week"] 
+					Chart item=Weather_Chart period=h refresh=6000 visibility=[Weather_Chart_Period==0, Weather_Chart_Period=="NULL"]
+					Chart item=Weather_Chart period=D refresh=30000 visibility=[Weather_Chart_Period==1]
+					Chart item=Weather_Chart period=W refresh=30000 visibility=[Weather_Chart_Period==2]
+				
+			}
+		}
+	}
+
+}

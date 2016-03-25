@@ -1,0 +1,19 @@
+// persistence strategies have a name and a definition and are referred to in the "Items" section
+Strategies {
+	// if no strategy is specified for an item entry below, the default list will be used
+	default = everyChange
+	everyMinute	: "0 * * * * ?"
+
+}
+
+/* 
+ * Each line in this section defines for which item(s) which strategy(ies) should be applied.
+ * You can list single items, use "*" for all items or "groupitem*" for all members of a group
+ * item (excl. the group item itself).
+ */
+Items {
+	* -> "logstash_all_change" : strategy = everyChange
+	Lights* -> "logstash_lights_change" : strategy = everyChange
+	Temperature* -> "logstash_temp_minute" : strategy = everyMinute
+	BM_Infrastructure* -> "logstash__bm_minute" : strategy = everyMinute
+}

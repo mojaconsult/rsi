@@ -1,0 +1,221 @@
+import org.openhab.core.library.types.*
+import org.openhab.core.persistence.*
+import org.openhab.model.script.actions.*
+import java.util.Date
+
+var Number counter = 1
+var Timer timer = null
+
+
+rule "-- Initialize contact states --"
+	when 
+		System started
+	then
+		Doors?.members.forEach(Doors|
+			postUpdate(Doors, if(Math::random > 0.5) OPEN else CLOSED)
+		)
+end
+
+
+rule "-- Initialize RsiLocation --"
+	when 
+		System started
+	then
+		RsiLocation.postUpdate(new PointType("47.1589111,6.9915021"))
+end
+
+rule "-- Initialize MojaLocation --"
+	when 
+		System started
+	then
+		MojaLocation.postUpdate(new PointType("46.926326179145384,7.417313715607017"))
+end
+
+/*
+rule "-- Switch all Heatings --"
+	when 
+		Item Heating_Setpoints changed
+	then
+		Heating_Setpoints?.members.forEach(Heating_Setpoints|
+			postUpdate(Heating_Setpoints, (if(Heating_Setpoints=) 20 else 4))
+		)
+end
+*/
+
+rule "-- Random temperature for boiler --"
+	when 
+		System started or
+		Time cron "0 */1 * * * ?"
+	then
+		postUpdate(Temperature_Boiler, (65.0 + ((50.0 - Math::random * 100.0).intValue) / 10.0))
+end
+
+
+rule "-- Simulate Global Irradiation --"
+	when 
+		Time cron "0 */1 * * * ?"
+	then
+		var Number azimuth = Azimuth.state as DecimalType
+		var Number elevation = Elevation.state as DecimalType
+
+		if(elevation >0){
+			postUpdate(Irradiation_Global, (16.0 * elevation))
+		}
+		if(elevation < 0){
+			postUpdate(Irradiation_Global, 0.0)
+		}
+end
+
+rule "Rule: Simulate Power of PV with 23% efficiency"
+	when 
+		Time cron "0 */1 * * * ?"
+	then
+		var Number ig = Irradiation_Global.state	
+		postUpdate(Power_PV, ig * 0.23)
+end
+
+
+rule "-- Not Charging E-Car --"
+	when 
+		System started or
+		Time cron "0  */1 0-11,17-23 * * ?"
+	then
+		postUpdate(Power_ECar, 0.0)
+end
+
+rule "-- Charging E-Car at 2300W --"
+	when 
+		Time cron "0  */1 12-16 * * ?"
+	then
+		postUpdate(Power_ECar, 2300.0)
+end
+
+rule "-- Other Consumption --"
+	when 
+		System started or
+		Time cron "0  */1 * * * ?"
+	then
+		postUpdate(Power_Other, (180.0 + ((1800.0 - Math::random * 3600.0).intValue) / 10.0))
+end
+
+rule "-- Power consumption Kitchen outside Lunch --"
+	when 
+		System started or
+		Time cron "0  */5 0-10,12-17,19-23 * * ?"
+	then
+		postUpdate(Power_Kitchen, (180.0 + ((1800.0 - Math::random * 3600.0).intValue) / 10.0))
+end
+
+rule "Rule: Power consumption Kitchen for Lunch 1500"
+	when 
+		Time cron "0  30-59/5 11,18 * * ?"
+	then
+		postUpdate(Power_Kitchen, 1500.0)
+end
+
+rule "-- Heatpump Power ON --"
+	when 
+		System started or
+		Time cron "0  0-20/1 * * * ?"
+	then
+		var Number outside_temp = Weather_Temperature.state as DecimalType
+		if(outside_temp < 7){
+			postUpdate(Power_Heatpump, (2000.0))
+		}
+end
+
+rule "-- Heatpump Power OFF --"
+	when 
+		System started or
+		Time cron "0  21-59/1 * * * ?"
+	then
+
+		postUpdate(Power_Heatpump, 0.0)
+end
+
+rule "Rule: Temperature for Heatpump"
+	when 
+		System started or
+		Time cron "0 */1 * * * ?"
+	then
+		postUpdate(Temperature_Heatpump, (28.0 + ((120.0 - Math::random * 240.0).intValue) / 10.0))
+end
+
+rule "-- PV Tracker Angle 90° == flat --"
+	when 
+		System started or
+		Time cron "0 */1 * * * ?"
+	then
+		var Number elevation = Elevation.state as DecimalType
+		var Number azimuth = Azimuth.state as DecimalType
+		if(azimuth < 180.0 && elevation > 0){
+			postUpdate(Angle_PV, (elevation * 1.0))
+		}
+		if(azimuth >= 180.0 && elevation > 0){
+			postUpdate(Angle_PV, (180.0 - elevation))
+		}
+		
+end
+
+rule "-- Inverter Output --"
+	when 
+		System started or
+		Time cron "0 */1 * * * ?"
+	then
+		var Number PV = Power_PV.state as DecimalType	
+		postUpdate(Power_Inverter, (PV * 0.97))
+end
+
+rule "-- Total Consumption --"
+	when 
+		System started or
+		Time cron "0 */1 * * * ?"
+	then
+		var Number po = Power_Other.state as DecimalType	
+		var Number pk = Power_Kitchen.state as DecimalType	
+		var Number pe = Power_ECar.state as DecimalType	
+		var Number ph = Power_Heatpump.state as DecimalType	
+		postUpdate(Power_Total, (pk + po + pe + ph))
+end
+
+rule "-- Battery Output --"
+	when 
+		System started or
+		Time cron "0 21-59/1 * * * ?"
+	then
+		var Number pt = Power_Total.state as DecimalType	
+		var Number pi = Power_Inverter.state as DecimalType
+		
+		if(pi > pt){	
+			postUpdate(Power_Battery, (pt - pi))	
+		}
+
+		if(pt > pi){	
+			postUpdate(Power_Battery, (pt - pi))	
+		}
+end
+
+rule "-- Grid Output --"
+	when 
+		System started or
+		Time cron "0 */1 * * * ?"
+	then
+		var Number pt = Power_Total.state as DecimalType	
+		var Number pi = Power_Inverter.state as DecimalType	
+		var Number pb = Power_Battery.state as DecimalType	
+		if
+		postUpdate(Power_Grid, (pt + pb - pi))
+end
+
+
+
+
+/*
+Number Power_PV 						"Power prod. PV [%.1f kW]"					<power>			(Power, C_Infrastructure)
+Number Power_Battery 					"Power Battery [%.1f kW]"					<power>			(Power, C_Infrastructure)
+Number Power_Inverter 					"Power Inverter [%.1f kW]"					<power>			(Power, C_Infrastructure)
+Number Power_Heatpump 					"Power Heatpump [%.1f kW]"					<power>			(Power, C_Infrastructure)
+Number Power_ECar 						"Power E-Car [%.1f kW]"						<power>			(Power, C_Infrastructure)
+Number Irradiation_Global 				"Irradiation [%.1f ]"						<irradiation>	(Irradiation, C_Infrastructure)
+Number Angle_PV 						"Angle [%.1f ]"								<angle>			(Angle, C_Infrastructure)
+*/

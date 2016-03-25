@@ -1,0 +1,32 @@
+sitemap zwave label="zwave"
+{
+	Frame label="General" {
+		Group item=Zwave 		label="Zwave Items" icon="cellar"	
+		Group item=gZwaveStats 	label="Zwave Stats" icon="cellar"	
+
+		Setpoint 	item=Zw_Danfoss5_Set minValue=4 maxValue=30 step=0.5
+		Setpoint 	item=Zw_Danfoss6_Set minValue=4 maxValue=30 step=0.5
+		Setpoint 	item=Zw_Danfoss7_Set minValue=4 maxValue=30 step=0.5
+		Switch		item=Zw_Cordswitch
+				
+/*
+		Text 		item=Zw_Danfoss5_Temp
+		Text 		item=Zw_Danfoss5_Bat
+		Text 		item=Zw_Danfoss6_Temp
+		Text 		item=Zw_Danfoss6_Bat
+		Text 		item=Zw_Danfoss7_Temp
+		Text 		item=Zw_Danfoss7_Bat
+		
+		Text item=Zw_Multisensor_Bat 
+		Text item=Zw_Multisensor_Temp icon="temperature"
+		Text item=Zw_Multisensor_Ver 
+
+		Text item=Zw_PST02_Battery 
+		Text item=Zw_PST02_Temp icon="temperature"
+		Text item=Zw_PST02_Motion
+		Text item=Zw_PST02_Door
+		Text item=Zw_PST02_Tamper
+		Text item=Zw_PST02_Lux
+*/
+	}		
+}

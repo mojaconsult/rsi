@@ -1,0 +1,12 @@
+# https://github.com/openhab/openhab/wiki/MQTT-Persistence */
+Strategies {
+        everyHour : "0 0 * * * ?"
+        default = everyChange
+        everyMinute : "0 * * * * ?"
+}
+Items {
+        // persist all items every hour and on every change
+        //* : strategy = everyChange, everyHour
+        Toggle_1 : strategy = everyChange, everyHour, everyMinute
+        Weather_Temperature, Volume : strategy = everyChange
+}

@@ -1,0 +1,36 @@
+/* Z-Wave.Me KeyFob 2 The keyfob commands remote_switch and switch_remote_multilevel are NOT supported yet */
+/*
+Switch Remote_Switch0 "Remote Switch 0 [%s]" (Zwave) 	{ zwave="10:0:command=remote_switch" }
+Switch Remote_Switch1 "Remote Switch 1 [%s]" (Zwave) 	{ zwave="10:1:command=remote_switch" }
+
+Switch Switch_Remote_Multilevel0 "Switch Remote Multilevel 0 [%s]" (Zwave) 	{ zwave="10:0:command=switch_remote_multilevel" }
+Switch Switch_Remote_Multilevel1 "Switch Remote Multilevel 1 [%s]" (Zwave) 	{ zwave="10:1:command=switch_remote_multilevel" }
+
+
+Switch WCD1_1_BUT1 "Test BUT 1" (Zwave) 	{ zwave="10:0:command=SCENE_ACTIVATION,scene=11,state=1" }
+Switch WCD1_1_BUT3 "Test BUT 3" (Zwave) 	{ zwave="10:0:command=SCENE_ACTIVATION,scene=12,state=0" }
+Switch WCD1_1_BUT2 "Test BUT 2" (Zwave) 	{ zwave="10:command=SCENE_ACTIVATION,scene=21,state=1" }
+Switch WCD1_1_BUT4 "Test BUT 4" (Zwave) 	{ zwave="10:command=SCENE_ACTIVATION,scene=22,state=0" }
+
+Switch  swLight_HallCeiling      "Hall: Ceiling"          (Zwave) { zwave="10:command=SWITCH_MULTILEVEL" }
+Dimmer  diLight_HallCeiling      "Hall: Ceiling [%d %%]"  (Zwave) { zwave="10:command=SWITCH_MULTILEVEL" }
+Switch  swScene1_HallCeiling     "Hall-Simpleclick"       (Zwave) { zwave="10:command=SCENE_ACTIVATION,scene=10,state=0" }
+Switch  swScene2_HallCeiling     "Hall-Doubleclick"       (Zwave) { zwave="10:command=SCENE_ACTIVATION,scene=24,state=0" }
+Switch  swScene3_HallCeiling     "Hall-Tripleclick"       (Zwave) { zwave="10:command=SCENE_ACTIVATION,scene=25,state=0" }
+
+
+Switch  Nodon_Button1_Single    "Nodon_Button1_Single"  <switch>  	(Zwave)  { zwave="10:command=SCENE_ACTIVATION,scene=10,state=1" }
+Switch  Nodon_Button2_Single    "Nodon_Button2_Single"  <switch>   	(Zwave)  { zwave="10:command=SCENE_ACTIVATION,scene=20,state=1" }
+    
+Switch Multiswitch_1_1  "Switch Gang, venstre op [%s]"  <pie>                   (Zwave, Multiswitch)   {zwave="10:1:command=scene_activation,scene=11,state=1"}
+Switch Multiswitch_1_2  "Switch Gang, venstre ned [%s]" <pie>                   (Zwave, Multiswitch)   {zwave="10:1:command=scene_activation,scene=12,state=1"}
+
+Switch Zw_Keyfob0   			"Keyfob 1 On/Off"   				(Zwave, GF_Fireside, Switching, Lights) 		{zwave="10:0:command=switch_binary,refresh_interval=15"}
+
+Switch Zw_Keyfob1   			"Keyfob 1 On/Off"   <contact>		(Zwave, GF_Fireside, Switching, Lights) 		{zwave="10:1:command=switch_binary,refresh_interval=15"}
+Switch Zw_Keyfob2  				"Keyfob 2 On/Off"   				(Zwave, GF_Fireside, Switching, Lights) 		{zwave="10:2:command=switch_binary,refresh_interval=15"}
+Switch Zw_Keyfob3   			"Keyfob 3 On/Off"   				(Zwave, GF_Fireside, Switching, Lights) 		{zwave="10:3:command=switch_binary,refresh_interval=15"}
+Switch Zw_Keyfob4   			"Keyfob 4 On/Off"   				(Zwave, GF_Fireside, Switching, Lights) 		{zwave="10:4:command=switch_binary,refresh_interval=15"}
+
+Switch Zw_Keyfob5   			"Keyfob 5 On/Off"   				(Zwave, GF_Fireside, Switching, Lights) 		{zwave="10:1:command=SWITCH_MULTILEVEL,respond_to_basic=TRUE" 
+*/
