@@ -48,3 +48,15 @@ Elasticsearch, Logstash, Kibana: This technologies are not yet working on the de
 
 ## Known Issues
 The logging out of OpenHAB for Logstash is currently not working. 
+
+# Future potential technologies
+Interesting Technologies are 
+
+# Things networking
+433Mhz HopeRF with RFM69 Chips (used in OpenEnergyMonitor).
+ZigBee (Binding may be developed by openhab).
+IP500 Alliance (based on 802.15.4,  6LoWpan, AES128, IPsec, BacNet).
+Yaler.net.
+Pleg.ma (with SiteWhere and SlamData). 
+siot.net with siot.io frontend.
+
