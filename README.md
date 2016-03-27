@@ -1,7 +1,10 @@
 # RSI
 "Rural Solar Innovation" is a project in Mont-Soleil. 
+
+# Current technology stack
 This git repository provides configuration information for OpenHAB 1.8 that is used as an 
 insulation between the "things" in the building and the cloud.   
+It is running on a Raspberry P 2B with a zwave USB stick and an enocean USB stick (currently not working next to each other).
 
 ## Naming
 We call all devices according to IoT "things". In the naming of OpenHAB such things have 
@@ -31,7 +34,17 @@ Such sitemaps are to show the capabilities of the respective technology or bingi
 the demo.items and rsi.items are currently simulated through demo.rules and rsi.rules.
 
 ## State of the Cloud
+### Planning
 The cloud is planned to run on Logstash or MongoDB, Elasticsearch and Kibana. 
+
+### Current State
+Xively: The connection to Xively is already running
+my.openhab: This connection is working. Take care to have all my.openhab users including their passwords also in users.cfg.
+IFTTT: Is running through my.openhab with the respective user credentials
+
+### Work in progress
+Sitewhere: The sitewhere plugin is not working. Therefor there is no deployment to the Raspberry Pi.
+Elasticsearch, Logstash, Kibana: This technologies are not yet working on the development machine. 
 
 ## Known Issues
 The logging out of OpenHAB for Logstash is currently not working. 
