@@ -60,16 +60,10 @@ Interesting Technologies are
 
 # Things networking
 * 433Mhz HopeRF with RFM69 Chips (used in OpenEnergyMonitor).
-
 * ZigBee (Binding may be developed by openhab).
-
-IP500 Alliance (based on 802.15.4,  6LoWpan, AES128, IPsec, BacNet).
-
-Yaler.net.
-
-Pleg.ma (with SiteWhere and SlamData). 
-
-siot.net with siot.io frontend.
-
-OpenEnergyMonitor: http://openenergymonitor.blogspot.ch/2015/12/openenergymonitor-emonpi-and-openhab.html?view=flipcard 
+* IP500 Alliance (based on 802.15.4,  6LoWpan, AES128, IPsec, BacNet).
+* Yaler.net.
+* Pleg.ma (with SiteWhere and SlamData). 
+* siot.net with siot.io frontend.
+* OpenEnergyMonitor: http://openenergymonitor.blogspot.ch/2015/12/openenergymonitor-emonpi-and-openhab.html?view=flipcard 
 
