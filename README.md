@@ -59,4 +59,5 @@ IP500 Alliance (based on 802.15.4,  6LoWpan, AES128, IPsec, BacNet).
 Yaler.net.
 Pleg.ma (with SiteWhere and SlamData). 
 siot.net with siot.io frontend.
+OpenEnergyMonitor: http://openenergymonitor.blogspot.ch/2015/12/openenergymonitor-emonpi-and-openhab.html?view=flipcard 
 
