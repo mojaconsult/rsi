@@ -59,9 +59,9 @@ The logging out of OpenHAB for Logstash is currently not working.
 Interesting Technologies are 
 
 # Things networking
-433Mhz HopeRF with RFM69 Chips (used in OpenEnergyMonitor).
+* 433Mhz HopeRF with RFM69 Chips (used in OpenEnergyMonitor).
 
-ZigBee (Binding may be developed by openhab).
+* ZigBee (Binding may be developed by openhab).
 
 IP500 Alliance (based on 802.15.4,  6LoWpan, AES128, IPsec, BacNet).
 
